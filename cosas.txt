@@ -1,0 +1,121 @@
+BUSQUEDA DE DATOS
+
+first(): Obtiene el primer registro que coincide con la consulta.
+php
+$student = Student::where('name', 'John')->first();
+
+
+findOrFail($id): Busca un registro por su ID y lanza una excepción si no lo encuentra.
+php
+$student = Student::findOrFail($id);
+
+
+firstOrFail(): Obtiene el primer registro que coincide con la consulta y lanza una excepción si no lo encuentra.
+php
+$student = Student::where('name', 'John')->firstOrFail();
+
+
+get(): Obtiene todos los registros que coinciden con la consulta.
+php
+$students = Student::where('status', 'active')->get();
+
+
+pluck('column'): Obtiene una lista de valores de una sola columna.
+php
+$names = Student::pluck('name');
+
+
+count(): Cuenta el número de registros que coinciden con la consulta.
+php
+$count = Student::where('status', 'active')->count();
+
+
+-----------------------------------------------------------------------------------------------------------------------------
+CONDICIONES
+
+where('column', 'operator', 'value'): Añade una condición a la consulta.
+php
+$students = Student::where('age', '>=', 18)->get();
+
+
+whereIn('column', [values]): Filtra los registros donde el valor de la columna está en un conjunto de valores.
+php
+$students = Student::whereIn('age', [18, 19, 20])->get();
+SELECT * FROM students WHERE age IN (18, 19, 20); lo mismo
+
+
+whereNotIn('column', [values]): Filtra los registros donde el valor de la columna no está en un conjunto de valores.
+php
+$students = Student::whereNotIn('age', [18, 19, 20])->get();
+
+
+whereNull('column'): Filtra los registros donde la columna es NULL.
+php
+$students = Student::whereNull('graduation_date')->get();
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+ORDERBY
+
+orderBy('column', 'direction'): Ordena los registros por una columna.
+php
+$students = Student::orderBy('name', 'asc')->get();
+
+
+groupBy('column'): Agrupa los resultados por una columna.
+php
+$students = Student::groupBy('class')->get();
+
+
+---------------------------------------------------------------------------------------------------------------------
+RELACIONES
+
+with('relation'): Carga anticipadamente una relación.
+php
+$students = Student::with('assists')->get();
+
+
+has('relation'): Filtra los registros que tienen una relación.
+php
+$students = Student::has('assists')->get();
+trae los estudiantes que tengan una asistencia 
+
+
+whereHas('relation', function($query) {...}): Filtra los registros que tienen una relación que cumple con ciertas condiciones.
+php
+$students = Student::whereHas('assists', function($query) {
+    $query->where('created_at', '>', now()->subDays(30));
+})->get();
+el query es la condicion que tien que cumplir
+
+------------------------------------------------------------------------------------------------------------------------------------------
+CREACION Y ACTUALIZACION DE DATOS 
+
+update($attributes): Actualiza los atributos del modelo.
+php
+$student->update(['name' => 'Jane Doe']);
+se tiene que obtener un registro de la base de datos Ej: $student = Student::find(1);
+UPDATE students SET name = 'Jane Doe' WHERE id = 1; similar 
+
+
+firstOrCreate($attributes): Encuentra el primer registro que coincide con los atributos, o lo crea si no existe.
+php
+$student = Student::firstOrCreate(['email' => 'john@example.com'], [
+    'name' => 'John Doe',
+    'age' => 18,
+]);
+si no encuentra la condicion crea la condicion de firstOrCreate mas lo que pongamos a bajo 'name' => 'John Doe',
+'age' => 18,
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+ELIMINAR
+
+delete(): Elimina el registro del modelo.
+php
+$student->delete();
+
+
+destroy($ids): Elimina varios registros por sus IDs.
+php
+Student::destroy([1, 2, 3]);
