@@ -70,7 +70,7 @@
 
                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Quieres eliminar a este estudiante?');"><i class="bi bi-trash"></i> Eliminar</button>
 
-                                    <a href="{{ route('assist', ['id' => $student->id]) }}" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i> Asistencias</a>
+                                    <a href="{{ route('assist', ['id' => $student->id]) }}" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i> Condicion</a>
 
                                     
 

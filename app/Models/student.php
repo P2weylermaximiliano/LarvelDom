@@ -19,6 +19,6 @@ class student extends Model
     ];
 
     public function assists(){
-        return $this->hasMany(Assist::class);
+        return $this->hasMany(Assist::class, 'student_id', 'id' );
     }
 }
